@@ -85,20 +85,18 @@
 
   // Shortcut
   var slice = Array.prototype.slice;
-  var createElement = document.createElement;
-  var createTextNode = document.createTextNode;
 
   global.html = function(tag){
     var defaults = slice.call(arguments, 1);
     return function(){
       var args = defaults.concat(slice.call(arguments));
-      var elem = createElement(tag);
+      var elem = document.createElement(tag);
       while (args.length > 0) {
         var arg = args.shift();
         if (isString(arg)) {
-          elem.appendChild(createTextNode(arg));
+          elem.appendChild(document.createTextNode(arg));
         } else if (isNumber(arg)) {
-          elem.appendChild(createTextNode(''+arg));
+          elem.appendChild(document.createTextNode(''+arg));
         } else if (isArray(arg)) {
           args = arg.concat(args);
         } else if (isElement(arg)) {
@@ -106,7 +104,7 @@
         } else if (isObject(arg)) {
           setattrs(elem, arg);
         } else if (arg && arg.toString) {
-          elem.appendChild(createTextNode(arg.toString()));
+          elem.appendChild(document.createTextNode(arg.toString()));
         } else {
           continue;
         }
@@ -141,7 +139,7 @@
           } else if (isArray(arg)) {
             args = arg.concat(args);
           } else if (isElement(arg)) {
-            var wrapper = createElement('div');
+            var wrapper = document.createElement('div');
             wrapper.appendChild(arg);
             contents.push(wrapper.innerHTML);
           } else if (isObject(arg)) {
